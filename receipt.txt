@@ -1,0 +1,128 @@
+
+------ ATM RECEIPT ------
+Account ID : 1
+Type       : WITHDRAW
+Amount     : ₹2000.0
+Balance    : ₹698000.0
+Date       : 2026-03-25T09:46:50.435575300
+-------------------------
+
+------ ATM RECEIPT ------
+Account ID : 1
+Type       : WITHDRAW
+Amount     : ₹1000.0
+Balance    : ₹697000.0
+Date       : 2026-03-25T10:09:22.579889400
+-------------------------
+
+------ ATM RECEIPT ------
+Account ID : 1
+Type       : WITHDRAW
+Amount     : ₹4000.0
+Balance    : ₹693000.0
+Date       : 2026-03-25T10:21:49.374734400
+-------------------------
+
+------ ATM RECEIPT ------
+Account ID : 1
+Type       : WITHDRAW
+Amount     : ₹2000.0
+Balance    : ₹691000.0
+Date       : 2026-03-25T10:27:46.168690400
+-------------------------
+
+------ ATM RECEIPT ------
+Account ID : 1
+Type       : DEPOSIT
+Amount     : ₹1000.0
+Balance    : ₹691000.0
+Date       : 2026-03-26T08:35:20.416212600
+-------------------------
+
+------ ATM RECEIPT ------
+Account ID : 1
+Type       : DEPOSIT
+Amount     : ₹10000.0
+Balance    : ₹691000.0
+Date       : 2026-03-26T08:35:27.241263400
+-------------------------
+
+------ ATM RECEIPT ------
+Account ID : 1
+Type       : DEPOSIT
+Amount     : ₹2000.0
+Balance    : ₹691000.0
+Date       : 2026-03-26T08:35:35.638430100
+-------------------------
+
+------ ATM RECEIPT ------
+Account ID : 1
+Type       : DEPOSIT
+Amount     : ₹3000.0
+Balance    : ₹691000.0
+Date       : 2026-03-26T08:35:48.919193600
+-------------------------
+
+------ ATM RECEIPT ------
+Account ID : 1
+Type       : DEPOSIT
+Amount     : ₹1500.0
+Balance    : ₹691000.0
+Date       : 2026-03-26T08:35:59.127065400
+-------------------------
+
+------ ATM RECEIPT ------
+Account ID : 1
+Type       : DEPOSIT
+Amount     : ₹1000.0
+Balance    : ₹691000.0
+Date       : 2026-03-26T08:38:10.700759500
+-------------------------
+
+------ ATM RECEIPT ------
+Account ID : 1
+Type       : DEPOSIT
+Amount     : ₹2000.0
+Balance    : ₹691000.0
+Date       : 2026-03-26T08:38:15.967244
+-------------------------
+
+------ ATM RECEIPT ------
+Account ID : 1
+Type       : DEPOSIT
+Amount     : ₹1500.0
+Balance    : ₹691000.0
+Date       : 2026-03-26T08:38:24.535437600
+-------------------------
+
+------ ATM RECEIPT ------
+Account ID : 1
+Type       : WITHDRAW
+Amount     : ₹200.0
+Balance    : ₹690800.0
+Date       : 2026-03-26T08:38:40.462299500
+-------------------------
+
+------ ATM RECEIPT ------
+Account ID : 1
+Type       : DEPOSIT
+Amount     : ₹2100.0
+Balance    : ₹690800.0
+Date       : 2026-03-26T08:38:51.599805100
+-------------------------
+
+------ ATM RECEIPT ------
+Account ID : 1
+Type       : DEPOSIT
+Amount     : ₹300.0
+Balance    : ₹690800.0
+Date       : 2026-03-26T08:47:15.341396700
+-------------------------
+
+------ ATM RECEIPT ------
+Account ID : 1
+Type       : WITHDRAW
+Amount     : ₹100.0
+Balance    : ₹690700.0
+Date       : 2026-03-26T08:49:25.223704700
+-------------------------

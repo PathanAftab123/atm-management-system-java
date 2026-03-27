@@ -1,0 +1,24 @@
+
+====== ATM RECEIPT ======
+Account ID: 1
+Transaction: WITHDRAW
+Amount: ₹120.0
+Remaining Balance: ₹690670.0
+Date: 2026-03-26T09:03:51.752790
+==========================
+
+====== ATM RECEIPT ======
+Account ID: 1
+Transaction: WITHDRAW
+Amount: ₹220.0
+Remaining Balance: ₹690450.0
+Date: 2026-03-26T09:03:57.367164900
+==========================
+
+====== ATM RECEIPT ======
+Account ID: 1
+Transaction: WITHDRAW
+Amount: ₹500.0
+Remaining Balance: ₹689950.0
+Date: 2026-03-26T10:45:26.640896400
+==========================
