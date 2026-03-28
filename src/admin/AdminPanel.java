@@ -305,7 +305,7 @@ public class AdminPanel {
                     System.out.println(
                             "\n------ BANK SUMMARY ------");
 
-                    // 🔥 Total Accounts
+                    // (leave empty) Total Accounts
                     String accQuery =
                             "select count(*) as total_accounts from accounts";
 
@@ -322,7 +322,7 @@ public class AdminPanel {
                                         + rs1.getInt("total_accounts"));
                     }
 
-                    // 🔥 Total Transactions
+                    // (leave empty) Total Transactions
                     String transQuery =
                             "select count(*) as total_transactions from transactions";
 
@@ -339,7 +339,7 @@ public class AdminPanel {
                                         + rs2.getInt("total_transactions"));
                     }
 
-                    // 🔥 Locked Accounts
+                    // (leave empty) Locked Accounts
                     String lockQuery =
                             "select count(*) as locked_accounts " +
                                     "from accounts where account_locked=true";
@@ -357,7 +357,7 @@ public class AdminPanel {
                                         + rs3.getInt("locked_accounts"));
                     }
 
-                    // 🔥 Total Bank Balance
+                    // (leave empty) Total Bank Balance
                     String balanceQuery =
                             "select sum(balance) as total_balance from accounts";
 

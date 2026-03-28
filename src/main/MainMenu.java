@@ -14,7 +14,7 @@ public class MainMenu {
 
         Scanner sc = new Scanner(System.in);
 
-        int loggedInUserId = -1; // 🔥 LOGIN SESSION
+        int loggedInUserId = -1;
 
         while (true) {
 

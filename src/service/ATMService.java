@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 
 public class ATMService {
 
-    // 🔥 Check ATM Cash
+    // (leave empty) Check ATM Cash
     public static boolean checkATMCash(Connection con,
                                        double amount) {
 
