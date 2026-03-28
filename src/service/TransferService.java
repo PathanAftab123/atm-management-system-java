@@ -13,18 +13,23 @@ public class TransferService {
 
         // Amount validation
         if (amount <= 0) {
+
             System.out.println("Invalid Amount");
             return;
         }
 
         // Same account check
         if (fromId == toId) {
-            System.out.println("Cannot transfer to same account");
+
+            System.out.println(
+                    "Cannot transfer to same account");
+
             return;
         }
 
         try {
 
+            // Start transaction
             con.setAutoCommit(false);
 
             double senderBalance = 0;
@@ -39,7 +44,8 @@ public class TransferService {
 
                 ps1.setInt(1, fromId);
 
-                ResultSet rs1 = ps1.executeQuery();
+                ResultSet rs1 =
+                        ps1.executeQuery();
 
                 if (!rs1.next()) {
 
@@ -64,7 +70,8 @@ public class TransferService {
 
                 ps2.setInt(1, toId);
 
-                ResultSet rs2 = ps2.executeQuery();
+                ResultSet rs2 =
+                        ps2.executeQuery();
 
                 if (!rs2.next()) {
 
@@ -92,13 +99,16 @@ public class TransferService {
             String deductQuery =
                     "update accounts set balance = balance - ? where id=?";
 
+            int rows1;
+
             try (PreparedStatement ps3 =
                          con.prepareStatement(deductQuery)) {
 
                 ps3.setDouble(1, amount);
                 ps3.setInt(2, fromId);
 
-                ps3.executeUpdate();
+                rows1 =
+                        ps3.executeUpdate();
             }
 
             // ================= ADD RECEIVER =================
@@ -106,13 +116,27 @@ public class TransferService {
             String addQuery =
                     "update accounts set balance = balance + ? where id=?";
 
+            int rows2;
+
             try (PreparedStatement ps4 =
                          con.prepareStatement(addQuery)) {
 
                 ps4.setDouble(1, amount);
                 ps4.setInt(2, toId);
 
-                ps4.executeUpdate();
+                rows2 =
+                        ps4.executeUpdate();
+            }
+
+            // Safety check
+            if (rows1 == 0 || rows2 == 0) {
+
+                con.rollback();
+
+                System.out.println(
+                        "Transfer Failed");
+
+                return;
             }
 
             // ================= SAVE TRANSACTIONS =================
@@ -127,9 +151,11 @@ public class TransferService {
                     "TRANSFER_RECEIVED",
                     amount);
 
+            // Commit transaction
             con.commit();
 
-            System.out.println("Transfer Successful");
+            System.out.println(
+                    "Transfer Successful");
 
             ReceiptService.generateReceipt(
                     fromId,
@@ -142,14 +168,34 @@ public class TransferService {
         catch (Exception e) {
 
             try {
+
                 con.rollback();
-            } catch (Exception ex) {
+
+            }
+
+            catch (Exception ex) {
+
                 ex.printStackTrace();
             }
 
-            System.out.println("Transfer Failed");
+            System.out.println(
+                    "Transfer Failed");
 
             e.printStackTrace();
+        }
+
+        finally {
+
+            try {
+
+                con.setAutoCommit(true);
+
+            }
+
+            catch (Exception e) {
+
+                e.printStackTrace();
+            }
         }
     }
 

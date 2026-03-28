@@ -12,11 +12,15 @@ public class WithdrawService {
 
         // Amount validation
         if (amount <= 0) {
+
             System.out.println("Invalid Amount");
             return;
         }
 
         try {
+
+            // Start transaction
+            con.setAutoCommit(false);
 
             // ================= DAILY LIMIT =================
 
@@ -47,6 +51,7 @@ public class WithdrawService {
                 System.out.println(
                         "Daily Withdrawal Limit Exceeded (₹10000)");
 
+                con.rollback();
                 return;
             }
 
@@ -70,6 +75,7 @@ public class WithdrawService {
                     System.out.println(
                             "Account Not Found");
 
+                    con.rollback();
                     return;
                 }
 
@@ -82,6 +88,7 @@ public class WithdrawService {
                 System.out.println(
                         "Insufficient Balance");
 
+                con.rollback();
                 return;
             }
 
@@ -89,6 +96,7 @@ public class WithdrawService {
 
             if (!ATMService.checkATMCash(con, amount)) {
 
+                con.rollback();
                 return;
             }
 
@@ -106,16 +114,18 @@ public class WithdrawService {
                 ps2.executeUpdate();
             }
 
-            System.out.println(
-                    "Withdrawal Successful");
+            // Reduce ATM cash
+            ATMService.reduceATMCash(con, amount);
 
-            // ================= SAVE TRANSACTION =================
-
+            // Save transaction
             saveTransaction(
                     con,
                     id,
                     "WITHDRAW",
                     amount);
+
+            System.out.println(
+                    "Withdrawal Successful");
 
             // ================= GET NEW BALANCE =================
 
@@ -143,16 +153,42 @@ public class WithdrawService {
                 }
             }
 
+            // Commit transaction
+            con.commit();
+
         }
 
         catch (Exception e) {
+
+            try {
+
+                con.rollback();
+
+            } catch (Exception ex) {
+
+                ex.printStackTrace();
+            }
 
             System.out.println(
                     "Withdrawal Failed");
 
             e.printStackTrace();
         }
+
+        finally {
+
+            try {
+
+                con.setAutoCommit(true);
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+        }
     }
+
+    // ================= SAVE TRANSACTION =================
 
     private static void saveTransaction(
             Connection con,

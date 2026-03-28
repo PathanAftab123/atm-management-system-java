@@ -11,41 +11,38 @@ public class ATMService {
     public static boolean checkATMCash(Connection con,
                                        double amount) {
 
-        try {
+        String query =
+                "select total_cash from atm_cash where id=1";
 
-            String query =
-                    "select total_cash from atm_cash where id=1";
+        try (PreparedStatement ps =
+                     con.prepareStatement(query)) {
 
-            try (PreparedStatement ps =
-                         con.prepareStatement(query)) {
+            ResultSet rs =
+                    ps.executeQuery();
 
-                ResultSet rs =
-                        ps.executeQuery();
+            if (rs.next()) {
 
-                if (rs.next()) {
+                double atmCash =
+                        rs.getDouble("total_cash");
 
-                    double atmCash =
-                            rs.getDouble("total_cash");
+                // LOW CASH WARNING
+                if (atmCash < 5000) {
 
-                    // LOW CASH WARNING
-                    if (atmCash < 5000) {
-
-                        System.out.println(
-                                "Warning: ATM Cash Low (₹"
-                                        + atmCash + ")");
-                    }
-
-                    // OUT OF CASH
-                    if (atmCash < amount) {
-
-                        System.out.println(
-                                "ATM Out of Cash");
-
-                        return false;
-                    }
-
-                    return true;
+                    System.out.println(
+                            "Warning: ATM Cash Low (₹"
+                                    + atmCash + ")");
                 }
+
+                // OUT OF CASH
+                if (atmCash < amount) {
+
+                    System.out.println(
+                            "ATM Out of Cash");
+
+                    return false;
+                }
+
+                return true;
             }
 
         }
@@ -59,5 +56,34 @@ public class ATMService {
         }
 
         return false;
+    }
+
+
+    // ================= REDUCE ATM CASH =================
+
+    public static void reduceATMCash(Connection con,
+                                     double amount) {
+
+        String query =
+                "update atm_cash " +
+                        "set total_cash = total_cash - ? " +
+                        "where id=1";
+
+        try (PreparedStatement ps =
+                     con.prepareStatement(query)) {
+
+            ps.setDouble(1, amount);
+
+            ps.executeUpdate();
+
+        }
+
+        catch (Exception e) {
+
+            System.out.println(
+                    "ATM Cash Update Failed");
+
+            e.printStackTrace();
+        }
     }
 }

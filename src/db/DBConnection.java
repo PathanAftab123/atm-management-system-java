@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 
 public class DBConnection {
 
+    // Database credentials
     private static final String URL =
             "jdbc:mysql://localhost:3306/atmdb";
 
@@ -14,25 +15,31 @@ public class DBConnection {
     private static final String PASSWORD =
             "aftab";
 
+    // Get database connection
     public static Connection getConnection() {
 
         Connection con = null;
 
         try {
 
+            // Load MySQL Driver (safe practice)
+            Class.forName(
+                    "com.mysql.cj.jdbc.Driver");
+
+            // Create connection
             con = DriverManager.getConnection(
                     URL,
                     USER,
                     PASSWORD
             );
 
-            System.out.println("Database Connected");
 
-        } catch (Exception e) {
+        }
+
+        catch (Exception e) {
 
             System.out.println(
-                    "Database Connection Failed"
-            );
+                    "Database Connection Failed");
 
             e.printStackTrace();
         }
