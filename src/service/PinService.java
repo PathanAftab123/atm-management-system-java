@@ -7,18 +7,17 @@ import java.sql.ResultSet;
 public class PinService {
 
     // ================= CREATE ACCOUNT =================
+
     public static void createAccount(Connection con,
                                      String name,
                                      double balance,
                                      int pin) {
 
-        try {
+        String query =
+                "insert into accounts(name,balance,pin) values(?,?,?)";
 
-            String query =
-                    "insert into accounts(name,balance,pin) values(?,?,?)";
-
-            PreparedStatement ps =
-                    con.prepareStatement(query);
+        try (PreparedStatement ps =
+                     con.prepareStatement(query)) {
 
             ps.setString(1, name);
             ps.setDouble(2, balance);
@@ -26,26 +25,32 @@ public class PinService {
 
             ps.executeUpdate();
 
-            System.out.println("Account Created Successfully ✅");
+            System.out.println(
+                    "Account Created Successfully");
 
-        } catch (Exception e) {
+        }
+
+        catch (Exception e) {
+
+            System.out.println(
+                    "Account Creation Failed");
+
             e.printStackTrace();
         }
     }
 
-    // ================= LOGIN WITH LOCK + LAST LOGIN =================
+    // ================= LOGIN =================
+
     public static boolean login(Connection con,
                                 int id,
                                 int pin) {
 
-        try {
+        String query =
+                "select pin, failed_attempts, account_locked, last_login " +
+                        "from accounts where id=?";
 
-            String query =
-                    "select pin, failed_attempts, account_locked, last_login " +
-                            "from accounts where id=?";
-
-            PreparedStatement ps =
-                    con.prepareStatement(query);
+        try (PreparedStatement ps =
+                     con.prepareStatement(query)) {
 
             ps.setInt(1, id);
 
@@ -66,19 +71,16 @@ public class PinService {
                 java.sql.Timestamp lastLogin =
                         rs.getTimestamp("last_login");
 
-                // 🔴 Locked Check
                 if (locked) {
 
                     System.out.println(
-                            "❌ Account Locked. Contact Bank.");
+                            "Account Locked. Contact Bank.");
 
                     return false;
                 }
 
-                // ✅ Correct PIN
                 if (dbPin == pin) {
 
-                    //  SHOW OLD LOGIN TIME
                     if (lastLogin != null) {
 
                         System.out.println(
@@ -86,69 +88,20 @@ public class PinService {
                                         + lastLogin);
                     }
 
-                    // Reset attempts
-                    String resetQuery =
-                            "update accounts set failed_attempts=0 where id=?";
+                    resetAttempts(con, id);
 
-                    PreparedStatement ps2 =
-                            con.prepareStatement(resetQuery);
-
-                    ps2.setInt(1, id);
-
-                    ps2.executeUpdate();
-
-                    //  UPDATE NEW LOGIN TIME
-                    String updateLogin =
-                            "update accounts set last_login=now() where id=?";
-
-                    PreparedStatement ps3 =
-                            con.prepareStatement(updateLogin);
-
-                    ps3.setInt(1, id);
-
-                    ps3.executeUpdate();
+                    updateLoginTime(con, id);
 
                     return true;
                 }
 
-                // ❌ Wrong PIN
                 else {
 
                     attempts++;
 
-                    if (attempts >= 3) {
-
-                        String lockQuery =
-                                "update accounts set account_locked=true where id=?";
-
-                        PreparedStatement ps4 =
-                                con.prepareStatement(lockQuery);
-
-                        ps4.setInt(1, id);
-
-                        ps4.executeUpdate();
-
-                        System.out.println(
-                                "❌ Account Locked after 3 wrong attempts");
-
-                    }
-
-                    else {
-
-                        String updateQuery =
-                                "update accounts set failed_attempts=? where id=?";
-
-                        PreparedStatement ps5 =
-                                con.prepareStatement(updateQuery);
-
-                        ps5.setInt(1, attempts);
-                        ps5.setInt(2, id);
-
-                        ps5.executeUpdate();
-
-                        System.out.println(
-                                "❌ Wrong PIN (" + attempts + "/3)");
-                    }
+                    updateAttempts(con,
+                            id,
+                            attempts);
 
                     return false;
                 }
@@ -158,7 +111,7 @@ public class PinService {
             else {
 
                 System.out.println(
-                        "Account Not Found ❌");
+                        "Account Not Found");
 
                 return false;
             }
@@ -173,18 +126,119 @@ public class PinService {
         return false;
     }
 
+    // ================= HELPER METHODS =================
+
+    private static void resetAttempts(Connection con,
+                                      int id) {
+
+        String query =
+                "update accounts set failed_attempts=0 where id=?";
+
+        try (PreparedStatement ps =
+                     con.prepareStatement(query)) {
+
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+
+        }
+
+        catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    private static void updateLoginTime(Connection con,
+                                        int id) {
+
+        String query =
+                "update accounts set last_login=now() where id=?";
+
+        try (PreparedStatement ps =
+                     con.prepareStatement(query)) {
+
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+
+        }
+
+        catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    private static void updateAttempts(Connection con,
+                                       int id,
+                                       int attempts) {
+
+        try {
+
+            if (attempts >= 3) {
+
+                String lockQuery =
+                        "update accounts set account_locked=true where id=?";
+
+                try (PreparedStatement ps =
+                             con.prepareStatement(lockQuery)) {
+
+                    ps.setInt(1, id);
+
+                    ps.executeUpdate();
+                }
+
+                System.out.println(
+                        "Account Locked after 3 wrong attempts");
+
+            }
+
+            else {
+
+                String updateQuery =
+                        "update accounts set failed_attempts=? where id=?";
+
+                try (PreparedStatement ps =
+                             con.prepareStatement(updateQuery)) {
+
+                    ps.setInt(1, attempts);
+                    ps.setInt(2, id);
+
+                    ps.executeUpdate();
+                }
+
+                System.out.println(
+                        "Wrong PIN (" + attempts + "/3)");
+            }
+
+        }
+
+        catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+
     // ================= CHANGE PIN =================
+
     public static void changePin(Connection con,
                                  int id,
                                  int newPin) {
 
-        try {
+        if (newPin < 1000 || newPin > 9999) {
 
-            String query =
-                    "update accounts set pin=? where id=?";
+            System.out.println(
+                    "PIN must be 4 digits");
 
-            PreparedStatement ps =
-                    con.prepareStatement(query);
+            return;
+        }
+
+        String query =
+                "update accounts set pin=? where id=?";
+
+        try (PreparedStatement ps =
+                     con.prepareStatement(query)) {
 
             ps.setInt(1, newPin);
             ps.setInt(2, id);
@@ -195,14 +249,17 @@ public class PinService {
             if (rows > 0)
 
                 System.out.println(
-                        "PIN Updated Successfully ✅");
+                        "PIN Updated Successfully");
 
             else
 
                 System.out.println(
-                        "Account Not Found ❌");
+                        "Account Not Found");
 
-        } catch (Exception e) {
+        }
+
+        catch (Exception e) {
+
             e.printStackTrace();
         }
     }

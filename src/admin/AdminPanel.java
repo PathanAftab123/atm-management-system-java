@@ -38,7 +38,7 @@ public class AdminPanel {
 
                     if (isAdminLoggedIn) {
 
-                        System.out.println("Admin already logged in ✅");
+                        System.out.println("Admin already logged in ");
                         continue;
                     }
 
@@ -49,11 +49,11 @@ public class AdminPanel {
 
                         isAdminLoggedIn = true;
 
-                        System.out.println("Admin Login Successful ✅");
+                        System.out.println("Admin Login Successful ");
 
                     } else {
 
-                        System.out.println("❌ Wrong Password");
+                        System.out.println(" Wrong Password");
                     }
                 }
 
@@ -62,7 +62,7 @@ public class AdminPanel {
 
                     if (!isAdminLoggedIn) {
 
-                        System.out.println("❌ Please login first");
+                        System.out.println(" Please login first");
                         continue;
                     }
 
@@ -84,12 +84,12 @@ public class AdminPanel {
                     if (rows > 0) {
 
                         System.out.println(
-                                "✅ Account Unlocked Successfully");
+                                " Account Unlocked Successfully");
 
                     } else {
 
                         System.out.println(
-                                "❌ Account Not Found");
+                                " Account Not Found");
                     }
                 }
 
@@ -99,7 +99,7 @@ public class AdminPanel {
 
                     if (!isAdminLoggedIn) {
 
-                        System.out.println("❌ Please login first");
+                        System.out.println(" Please login first");
                         continue;
                     }
 
@@ -130,7 +130,7 @@ public class AdminPanel {
 
                     if (!isAdminLoggedIn) {
 
-                        System.out.println("❌ Please login first");
+                        System.out.println(" Please login first");
                         continue;
                     }
 
@@ -167,7 +167,7 @@ public class AdminPanel {
 
                     if (!isAdminLoggedIn) {
 
-                        System.out.println("❌ Please login first");
+                        System.out.println(" Please login first");
                         continue;
                     }
 
@@ -207,7 +207,7 @@ public class AdminPanel {
                     if (!found) {
 
                         System.out.println(
-                                "No Account Found ❌");
+                                "No Account Found ");
                     }
                 }
 
@@ -298,7 +298,7 @@ public class AdminPanel {
 
                     if (!isAdminLoggedIn) {
 
-                        System.out.println("❌ Please login first");
+                        System.out.println(" Please login first");
                         continue;
                     }
 
@@ -382,7 +382,7 @@ public class AdminPanel {
 
                     isAdminLoggedIn = false;
 
-                    System.out.println("Admin Logged Out ✅");
+                    System.out.println("Admin Logged Out ");
                 }
 
 
@@ -403,7 +403,7 @@ public class AdminPanel {
 
         catch (Exception e) {
 
-            e.printStackTrace();
+            System.out.println("Something went wrong");
         }
     }
 }

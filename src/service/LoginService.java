@@ -43,12 +43,12 @@ public class LoginService {
                 if (locked) {
 
                     System.out.println(
-                            "❌ Account Locked. Contact Bank.");
+                            " Account Locked. Contact Bank.");
 
                     return false;
                 }
 
-                // ✅ Correct PIN
+                //  Correct PIN
                 if (dbPin == pin) {
 
                     //  Show previous login
@@ -84,7 +84,7 @@ public class LoginService {
                     return true;
                 }
 
-                // ❌ Wrong PIN
+                //  Wrong PIN
                 else {
 
                     attempts++;
@@ -102,7 +102,7 @@ public class LoginService {
                         ps3.executeUpdate();
 
                         System.out.println(
-                                "❌ Account Locked after 3 wrong attempts");
+                                " Account Locked after 3 wrong attempts");
 
                     }
 
@@ -120,7 +120,7 @@ public class LoginService {
                         ps4.executeUpdate();
 
                         System.out.println(
-                                "❌ Wrong PIN (" + attempts + "/3)");
+                                " Wrong PIN (" + attempts + "/3)");
                     }
 
                     return false;
@@ -131,7 +131,7 @@ public class LoginService {
             else {
 
                 System.out.println(
-                        "Account Not Found ❌");
+                        "Account Not Found ");
 
                 return false;
             }

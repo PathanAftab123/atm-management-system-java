@@ -10,131 +10,145 @@ public class WithdrawService {
                                 int id,
                                 double amount) {
 
+        // Amount validation
+        if (amount <= 0) {
+            System.out.println("Invalid Amount");
+            return;
+        }
+
         try {
 
-            //  DAILY LIMIT CHECK
+            // ================= DAILY LIMIT =================
+
             String limitQuery =
                     "select sum(amount) as total from transactions " +
                             "where account_id=? and type='WITHDRAW' " +
                             "and date(date)=curdate()";
 
-            PreparedStatement psLimit =
-                    con.prepareStatement(limitQuery);
-
-            psLimit.setInt(1, id);
-
-            ResultSet rsLimit =
-                    psLimit.executeQuery();
-
             double todayWithdraw = 0;
 
-            if (rsLimit.next()) {
+            try (PreparedStatement psLimit =
+                         con.prepareStatement(limitQuery)) {
 
-                todayWithdraw =
-                        rsLimit.getDouble("total");
+                psLimit.setInt(1, id);
+
+                ResultSet rsLimit =
+                        psLimit.executeQuery();
+
+                if (rsLimit.next()) {
+
+                    todayWithdraw =
+                            rsLimit.getDouble("total");
+                }
             }
 
             if (todayWithdraw + amount > 10000) {
 
                 System.out.println(
-                        "❌ Daily Withdrawal Limit Exceeded (₹10000)");
+                        "Daily Withdrawal Limit Exceeded (₹10000)");
 
                 return;
             }
 
-            //  CHECK BALANCE
+            // ================= CHECK BALANCE =================
 
             String checkQuery =
                     "select balance from accounts where id=?";
 
-            PreparedStatement ps1 =
-                    con.prepareStatement(checkQuery);
+            double currentBalance = 0;
 
-            ps1.setInt(1, id);
+            try (PreparedStatement ps1 =
+                         con.prepareStatement(checkQuery)) {
 
-            ResultSet rs1 =
-                    ps1.executeQuery();
+                ps1.setInt(1, id);
 
-            if (rs1.next()) {
+                ResultSet rs1 =
+                        ps1.executeQuery();
 
-                double currentBalance =
+                if (!rs1.next()) {
+
+                    System.out.println(
+                            "Account Not Found");
+
+                    return;
+                }
+
+                currentBalance =
                         rs1.getDouble("balance");
-
-                if (currentBalance >= amount) {
-
-
-                    String withdrawQuery =
-                            "update accounts set balance = balance - ? where id=?";
-
-                    if (!ATMService.checkATMCash(con, amount)) {
-
-                        return;
-                    }
-                    PreparedStatement ps2 =
-                            con.prepareStatement(withdrawQuery);
-
-                    ps2.setDouble(1, amount);
-                    ps2.setInt(2, id);
-
-                    ps2.executeUpdate();
-
-                    System.out.println(
-                            "Withdrawal Successful ✅");
-
-                    //  Save transaction
-
-                    saveTransaction(
-                            con,
-                            id,
-                            "WITHDRAW",
-                            amount);
-
-                    //  Get updated balance
-
-                    String balQuery =
-                            "select balance from accounts where id=?";
-
-                    PreparedStatement ps3 =
-                            con.prepareStatement(balQuery);
-
-                    ps3.setInt(1, id);
-
-                    ResultSet rs2 =
-                            ps3.executeQuery();
-
-                    if (rs2.next()) {
-
-                        double newBalance =
-                                rs2.getDouble("balance");
-
-                        //  Generate receipt
-
-                        ReceiptService.generateReceipt(
-                                id,
-                                "WITHDRAW",
-                                amount,
-                                newBalance);
-                    }
-
-                }
-
-                else {
-
-                    System.out.println(
-                            "❌ Insufficient Balance");
-                }
-
             }
 
-            else {
+            if (currentBalance < amount) {
 
                 System.out.println(
-                        "Account Not Found ❌");
+                        "Insufficient Balance");
+
+                return;
+            }
+
+            // ================= ATM CASH CHECK =================
+
+            if (!ATMService.checkATMCash(con, amount)) {
+
+                return;
+            }
+
+            // ================= WITHDRAW =================
+
+            String withdrawQuery =
+                    "update accounts set balance = balance - ? where id=?";
+
+            try (PreparedStatement ps2 =
+                         con.prepareStatement(withdrawQuery)) {
+
+                ps2.setDouble(1, amount);
+                ps2.setInt(2, id);
+
+                ps2.executeUpdate();
+            }
+
+            System.out.println(
+                    "Withdrawal Successful");
+
+            // ================= SAVE TRANSACTION =================
+
+            saveTransaction(
+                    con,
+                    id,
+                    "WITHDRAW",
+                    amount);
+
+            // ================= GET NEW BALANCE =================
+
+            String balQuery =
+                    "select balance from accounts where id=?";
+
+            try (PreparedStatement ps3 =
+                         con.prepareStatement(balQuery)) {
+
+                ps3.setInt(1, id);
+
+                ResultSet rs2 =
+                        ps3.executeQuery();
+
+                if (rs2.next()) {
+
+                    double newBalance =
+                            rs2.getDouble("balance");
+
+                    ReceiptService.generateReceipt(
+                            id,
+                            "WITHDRAW",
+                            amount,
+                            newBalance);
+                }
             }
 
         }
 
         catch (Exception e) {
+
+            System.out.println(
+                    "Withdrawal Failed");
 
             e.printStackTrace();
         }
@@ -146,21 +160,17 @@ public class WithdrawService {
             String type,
             double amount) {
 
-        try {
+        String query =
+                "insert into transactions(account_id,type,amount,date) values(?,?,?,now())";
 
-            String query =
-                    "insert into transactions(account_id,type,amount,date) " +
-                            "values(?,?,?,now())";
-
-            PreparedStatement ps =
-                    con.prepareStatement(query);
+        try (PreparedStatement ps =
+                     con.prepareStatement(query)) {
 
             ps.setInt(1, id);
             ps.setString(2, type);
             ps.setDouble(3, amount);
 
             ps.executeUpdate();
-
         }
 
         catch (Exception e) {

@@ -55,11 +55,11 @@ public class MainMenu {
 
                         loggedInUserId = id;
 
-                        System.out.println("Login Successful ✅");
+                        System.out.println("Login Successful ");
 
                     } else {
 
-                        System.out.println("Login Failed ❌");
+                        System.out.println("Login Failed ");
                     }
                 }
                 // ================= CHECK LOGIN =================
@@ -67,7 +67,7 @@ public class MainMenu {
 
                     if (loggedInUserId == -1) {
 
-                        System.out.println("❌ Please login first");
+                        System.out.println(" Please login first");
                         continue;
                     }
 
@@ -118,7 +118,7 @@ public class MainMenu {
 
                     if (loggedInUserId == -1) {
 
-                        System.out.println("❌ Please login first");
+                        System.out.println(" Please login first");
                         continue;
                     }
 
@@ -140,7 +140,7 @@ public class MainMenu {
                     else if (opt == 3) amount = 2000;
                     else if (opt == 4) amount = 5000;
                     else {
-                        System.out.println("Invalid Option ❌");
+                        System.out.println("Invalid Option ");
                         continue;
                     }
 
@@ -152,7 +152,7 @@ public class MainMenu {
 
                     if (loggedInUserId == -1) {
 
-                        System.out.println("❌ Please login first");
+                        System.out.println(" Please login first");
                         continue;
                     }
 
@@ -176,19 +176,19 @@ public class MainMenu {
 
                     loggedInUserId = -1;
 
-                    System.out.println("Logged Out Successfully ✅");
+                    System.out.println("Logged Out Successfully ");
                 }
 
                 // ================= EXIT =================
                 else if (choice == 10) {
 
-                    System.out.println("Thank You for using ATM ✅");
+                    System.out.println("Thank You for using ATM ");
                     break;
                 }
 
                 else {
 
-                    System.out.println("Invalid Choice ❌");
+                    System.out.println("Invalid Choice ");
                 }
 
             } catch (Exception e) {

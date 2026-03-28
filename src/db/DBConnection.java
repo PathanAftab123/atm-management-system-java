@@ -5,21 +5,35 @@ import java.sql.DriverManager;
 
 public class DBConnection {
 
+    private static final String URL =
+            "jdbc:mysql://localhost:3306/atmdb";
+
+    private static final String USER =
+            "root";
+
+    private static final String PASSWORD =
+            "aftab";
+
     public static Connection getConnection() {
 
         Connection con = null;
 
         try {
 
-            String url = "jdbc:mysql://localhost:3306/atmdb";
-            String user = "root";
-            String password = "aftab";
+            con = DriverManager.getConnection(
+                    URL,
+                    USER,
+                    PASSWORD
+            );
 
-            con = DriverManager.getConnection(url, user, password);
-
-            System.out.println("Database Connected ✅");
+            System.out.println("Database Connected");
 
         } catch (Exception e) {
+
+            System.out.println(
+                    "Database Connection Failed"
+            );
+
             e.printStackTrace();
         }
 

@@ -10,27 +10,26 @@ public class MiniStatementService {
     public static void showMiniStatement(Connection con,
                                          int id) {
 
-        try {
+        String query =
+                "select type, amount, date " +
+                        "from transactions " +
+                        "where account_id=? " +
+                        "order by date desc limit 5";
 
-            String query =
-                    "select type, amount, date " +
-                            "from transactions " +
-                            "where account_id=? " +
-                            "order by date desc " +
-                            "limit 5";
+        System.out.println("\n--- Mini Statement ---");
 
-            PreparedStatement ps =
-                    con.prepareStatement(query);
+        try (
+                PreparedStatement ps =
+                        con.prepareStatement(query);
+
+                FileWriter fw =
+                        new FileWriter("mini_statement.txt", true)
+        ) {
 
             ps.setInt(1, id);
 
             ResultSet rs =
                     ps.executeQuery();
-
-            System.out.println("\n--- Mini Statement ---");
-
-            FileWriter fw =
-                    new FileWriter("mini_statement.txt", true);
 
             fw.write("\n------ MINI STATEMENT ------\n");
 
@@ -47,10 +46,8 @@ public class MiniStatementService {
                                 + " | "
                                 + rs.getTimestamp("date");
 
-                // Screen print
                 System.out.println(line);
 
-                // File write
                 fw.write(line + "\n");
             }
 
@@ -64,14 +61,15 @@ public class MiniStatementService {
 
             fw.write("----------------------------\n");
 
-            fw.close();
-
             System.out.println(
-                    "Mini Statement Saved 📄");
+                    "Mini Statement Saved");
 
         }
 
         catch (Exception e) {
+
+            System.out.println(
+                    "Mini Statement Failed");
 
             e.printStackTrace();
         }

@@ -9,62 +9,72 @@ public class DepositService {
                                int id,
                                double amount) {
 
+        // Amount validation
+        if (amount <= 0) {
+            System.out.println("Invalid Amount");
+            return;
+        }
+
         try {
 
-            //  Deposit money
+            // ================= DEPOSIT =================
+
             String query =
                     "update accounts set balance = balance + ? where id=?";
 
-            PreparedStatement ps =
-                    con.prepareStatement(query);
+            try (PreparedStatement ps =
+                         con.prepareStatement(query)) {
 
-            ps.setDouble(1, amount);
-            ps.setInt(2, id);
+                ps.setDouble(1, amount);
+                ps.setInt(2, id);
 
-            int rows =
-                    ps.executeUpdate();
+                int rows =
+                        ps.executeUpdate();
 
-            if (rows > 0) {
+                if (rows > 0) {
 
-                System.out.println(
-                        "Deposit Successful ✅");
+                    System.out.println(
+                            "Deposit Successful");
 
-                //  Save transaction (IMPORTANT)
-                saveTransaction(con,
-                        id,
-                        "DEPOSIT",
-                        amount);
+                    // Save transaction
+                    saveTransaction(con,
+                            id,
+                            "DEPOSIT",
+                            amount);
 
-            }
+                }
 
-            else {
+                else {
 
-                System.out.println(
-                        "Account Not Found ❌");
+                    System.out.println(
+                            "Account Not Found");
+                }
             }
 
         }
 
         catch (Exception e) {
 
+            System.out.println(
+                    "Deposit Failed");
+
             e.printStackTrace();
         }
     }
 
-    //  Save Transaction
+    // ================= SAVE TRANSACTION =================
+
     private static void saveTransaction(Connection con,
                                         int id,
                                         String type,
                                         double amount) {
 
-        try {
+        String query =
+                "insert into transactions(account_id,type,amount,date) " +
+                        "values(?,?,?,now())";
 
-            String query =
-                    "insert into transactions(account_id,type,amount,date) " +
-                            "values(?,?,?,now())";
-
-            PreparedStatement ps =
-                    con.prepareStatement(query);
+        try (PreparedStatement ps =
+                     con.prepareStatement(query)) {
 
             ps.setInt(1, id);
             ps.setString(2, type);

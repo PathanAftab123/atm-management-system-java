@@ -8,7 +8,7 @@ This project simulates real ATM operations like login, withdrawal, transfer, and
 ## 🚀 Features
 
 - 🔐 Login System with PIN
-- ❌ Account Lock after 3 Wrong Attempts
+-  Account Lock after 3 Wrong Attempts
 - 💰 Deposit Money
 - 💸 Withdraw Money
 - ⚡ Fast Cash

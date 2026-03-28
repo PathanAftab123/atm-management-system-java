@@ -10,10 +10,8 @@ public class ReceiptService {
                                        double amount,
                                        double balance) {
 
-        try {
-
-            FileWriter fw =
-                    new FileWriter("withdraw_receipt.txt", true);
+        try (FileWriter fw =
+                     new FileWriter("transaction_receipt.txt", true)) {
 
             fw.write("\n====== ATM RECEIPT ======\n");
 
@@ -31,14 +29,15 @@ public class ReceiptService {
 
             fw.write("==========================\n");
 
-            fw.close();
-
             System.out.println(
-                    "Receipt Generated 🧾");
+                    "Receipt Generated");
 
         }
 
         catch (Exception e) {
+
+            System.out.println(
+                    "Receipt Generation Failed");
 
             e.printStackTrace();
         }
