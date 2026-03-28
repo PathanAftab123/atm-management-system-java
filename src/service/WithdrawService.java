@@ -12,7 +12,7 @@ public class WithdrawService {
 
         try {
 
-            // (leave empty) DAILY LIMIT CHECK
+            //  DAILY LIMIT CHECK
             String limitQuery =
                     "select sum(amount) as total from transactions " +
                             "where account_id=? and type='WITHDRAW' " +
@@ -42,7 +42,7 @@ public class WithdrawService {
                 return;
             }
 
-            // (leave empty) CHECK BALANCE
+            //  CHECK BALANCE
 
             String checkQuery =
                     "select balance from accounts where id=?";
@@ -81,7 +81,7 @@ public class WithdrawService {
                     System.out.println(
                             "Withdrawal Successful ✅");
 
-                    // (leave empty) Save transaction
+                    //  Save transaction
 
                     saveTransaction(
                             con,
@@ -89,7 +89,7 @@ public class WithdrawService {
                             "WITHDRAW",
                             amount);
 
-                    // (leave empty) Get updated balance
+                    //  Get updated balance
 
                     String balQuery =
                             "select balance from accounts where id=?";
@@ -107,7 +107,7 @@ public class WithdrawService {
                         double newBalance =
                                 rs2.getDouble("balance");
 
-                        // (leave empty) Generate receipt
+                        //  Generate receipt
 
                         ReceiptService.generateReceipt(
                                 id,

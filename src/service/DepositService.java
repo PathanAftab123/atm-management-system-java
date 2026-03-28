@@ -11,7 +11,7 @@ public class DepositService {
 
         try {
 
-            // (leave empty) Deposit money
+            //  Deposit money
             String query =
                     "update accounts set balance = balance + ? where id=?";
 
@@ -29,7 +29,7 @@ public class DepositService {
                 System.out.println(
                         "Deposit Successful ✅");
 
-                // (leave empty) Save transaction (IMPORTANT)
+                //  Save transaction (IMPORTANT)
                 saveTransaction(con,
                         id,
                         "DEPOSIT",
@@ -51,7 +51,7 @@ public class DepositService {
         }
     }
 
-    // (leave empty) Save Transaction
+    //  Save Transaction
     private static void saveTransaction(Connection con,
                                         int id,
                                         String type,

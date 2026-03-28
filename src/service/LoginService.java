@@ -51,7 +51,7 @@ public class LoginService {
                 // ✅ Correct PIN
                 if (dbPin == pin) {
 
-                    // (leave empty) Show previous login
+                    //  Show previous login
                     if (lastLogin != null) {
 
                         System.out.println(
@@ -70,7 +70,7 @@ public class LoginService {
 
                     ps2.executeUpdate();
 
-                    // (leave empty) Update new login time
+                    //  Update new login time
                     String loginQuery =
                             "update accounts set last_login=now() where id=?";
 
