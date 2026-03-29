@@ -209,18 +209,18 @@ Give it a ⭐ on GitHub!
 
 ### 🔐 Login Screen
 
-![Login Screenshot](images/login.png)
+![Login Screenshot](Images/login.png)
 
 ---
 
 ### 💸 Withdraw Money
 
-![Withdraw Screenshot](images/withdraw.png)
+![Withdraw Screenshot](Images/withdraw.png)
 
 ---
 
 ### 🔁 Transfer Money
 
-![Transfer Screenshot](images/transfer.png)
+![Transfer Screenshot](Images/transfer.png)
 
 ---
