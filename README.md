@@ -66,36 +66,35 @@ It allows users to perform secure banking operations such as:
 
 ## 🗂️ Project Structure
 
-
+```
 atm-management-system-java
 │
 ├── src
-│ ├── main
-│ │ └── MainMenu.java
-│ │
-│ ├── db
-│ │ └── DBConnection.java
-│ │
-│ ├── service
-│ │ ├── DepositService.java
-│ │ ├── WithdrawService.java
-│ │ ├── TransferService.java
-│ │ ├── BalanceService.java
-│ │ ├── PinService.java
-│ │ ├── MiniStatementService.java
-│ │ ├── ReceiptService.java
-│ │ └── ATMService.java
-│ │
-│ └── admin
-│ └── AdminPanel.java
+│   ├── main
+│   │   └── MainMenu.java
+│   │
+│   ├── db
+│   │   └── DBConnection.java
+│   │
+│   ├── service
+│   │   ├── DepositService.java
+│   │   ├── WithdrawService.java
+│   │   ├── TransferService.java
+│   │   ├── BalanceService.java
+│   │   ├── PinService.java
+│   │   ├── MiniStatementService.java
+│   │   ├── ReceiptService.java
+│   │   └── ATMService.java
+│   │
+│   └── admin
+│       └── AdminPanel.java
 │
 ├── mini_statement.txt
 ├── transaction_receipt.txt
 └── README.md
-
+```
 
 ---
-
 
 ## 🗄️ Database Setup
 
@@ -141,17 +140,21 @@ INSERT INTO atm_cash VALUES (1, 50000);
 
 ```bash
 git clone https://github.com/PathanAftab123/atm-management-system-java.git
+```
 
-Steps to Run
-Open project in IntelliJ IDEA
-Configure MySQL database
-Update database credentials in:
-DBConnection.java
-Run:
-MainMenu.java
-📄 Sample Output
+### Steps to Run
 
+1. Open project in IntelliJ IDEA  
+2. Configure MySQL database  
+3. Update database credentials in  
+   `DBConnection.java`  
+4. Run  
+   `MainMenu.java`
+## 📄 Sample Output
+
+```
 ====== ATM SYSTEM ======
+
 1 Login
 2 Check Balance
 3 Deposit
@@ -164,29 +167,37 @@ MainMenu.java
 10 Exit
 
 Enter choice:
-🎯 Learning Outcomes
+
+
+```
+## 🎯 Learning Outcomes
 
 Through this project, I learned:
 
-JDBC Database Connectivity
-Transaction Management (Commit/Rollback)
-Service-Based Architecture
-SQL Query Handling
-File Handling in Java
-Exception Handling
-Real-world ATM Logic Implementation
-📌 Future Enhancements
-GUI version using Java Swing
-Web version using Spring Boot
-OTP verification
-Email notifications
-Admin dashboard improvements
-👨‍💻 Author
+- JDBC Database Connectivity  
+- Transaction Management (Commit/Rollback)  
+- Service-Based Architecture  
+- SQL Query Handling  
+- File Handling in Java  
+- Exception Handling  
+- Real-world ATM Logic Implementation
 
-Aftab Khan
+  
+## 📌 Future Enhancements
 
-GitHub:
-https://github.com/PathanAftab123
+- GUI version using Java Swing  
+- Web version using Spring Boot  
+- OTP verification  
+- Email notifications  
+- Admin dashboard improvements
+
+  
+## 👨‍💻 Author
+
+**Aftab Khan**
+
+- GitHub: https://github.com/PathanAftab123
+
 
 ⭐ If you like this project
 
@@ -194,12 +205,22 @@ Give it a ⭐ on GitHub!
 
 
 ---
+## 📸 Screenshots
 
-# 🎯 Ab kya karo
+### 🔐 Login Screen
 
-Bas ye commands run karo:
+![Login Screenshot](images/login.png)
 
-```bash
-git add README.md
-git commit -m "Fixed README formatting"
-git push origin main
+---
+
+### 💸 Withdraw Money
+
+![Withdraw Screenshot](images/withdraw.png)
+
+---
+
+### 🔁 Transfer Money
+
+![Transfer Screenshot](images/transfer.png)
+
+---
